@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Talks Today</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f7f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin: 0;
+        }
+        header p {
+            font-size: 1.1em;
+            color: #7f8c8d;
+        }
+        .search-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        #search-box {
+            width: 50%;
+            padding: 12px;
+            border-radius: 25px;
+            border: 1px solid #ccc;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+        #search-box:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+        }
+        .schedule-container {
+            position: relative;
+        }
+        .schedule-item {
+            display: flex;
+            margin-bottom: 20px;
+            position: relative;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+        .schedule-item.hidden {
+            opacity: 0;
+            height: 0;
+            margin: 0;
+            overflow: hidden;
+        }
+        .time-marker {
+            flex-basis: 100px;
+            text-align: right;
+            padding-right: 20px;
+            font-weight: bold;
+            color: #3498db;
+            position: relative;
+        }
+        .content-wrapper {
+            flex-grow: 1;
+            padding-left: 30px;
+            border-left: 3px solid #3498db;
+        }
+        .time-marker::after {
+            content: '';
+            position: absolute;
+            top: 8px;
+            right: -10px;
+            width: 16px;
+            height: 16px;
+            background-color: #fff;
+            border: 3px solid #3498db;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        .talk-content {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        .talk-content h3 {
+            margin-top: 0;
+            font-size: 1.4em;
+            color: #2c3e50;
+        }
+        .speakers {
+            font-style: italic;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+        }
+        .categories {
+            margin-top: 15px;
+        }
+        .category-tag {
+            display: inline-block;
+            background-color: #ecf0f1;
+            color: #7f8c8d;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        .break-item .content-wrapper, .lunch-item .content-wrapper {
+            border-left: 3px solid #bdc3c7;
+        }
+        .break-item .time-marker::after, .lunch-item .time-marker::after {
+            border-color: #bdc3c7;
+        }
+        .break-item .time-marker, .lunch-item .time-marker {
+             color: #95a5a6;
+        }
+        .break-content {
+            padding: 10px 20px;
+            font-style: italic;
+            color: #95a5a6;
+        }
+        .lunch-content {
+            padding: 20px;
+            background-color: #ecf0f1;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Tech Talks Today</h1>
+            <p>A 1-Day Virtual Event for Innovators</p>
+        </header>
+
+        <div class="search-container">
+            <input type="text" id="search-box" placeholder="Search by category (e.g., AI, JavaScript)...">
+        </div>
+
+        <div id="schedule-container" class="schedule-container">
+            <!-- Schedule items will be rendered here by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        const scheduleItems = [
+            {
+                type: 'talk',
+                startTime: '10:00',
+                endTime: '11:00',
+                title: 'The Future of AI: Beyond the Hype',
+                speakers: ['Dr. Evelyn Reed'],
+                categories: ['AI', 'Machine Learning', 'Future Tech'],
+                description: 'A deep dive into the next generation of artificial intelligence, exploring practical applications and ethical considerations.'
+            },
+            {
+                type: 'break',
+                startTime: '11:00',
+                endTime: '11:10',
+                title: 'Transition'
+            },
+            {
+                type: 'talk',
+                startTime: '11:10',
+                endTime: '12:10',
+                title: 'Modern JavaScript Frameworks in 2026',
+                speakers: ['Alex Chen', 'Brenda Ortiz'],
+                categories: ['JavaScript', 'Web Development', 'Frontend'],
+                description: 'An overview and comparison of the latest trends and features in popular JavaScript frameworks like React, Vue, and Svelte.'
+            },
+            {
+                type: 'break',
+                startTime: '12:10',
+                endTime: '12:20',
+                title: 'Transition'
+            },
+            {
+                type: 'talk',
+                startTime: '12:20',
+                endTime: '13:20',
+                title: 'Cloud-Native Security: A Practical Guide',
+                speakers: ['Samuel Jones'],
+                categories: ['Cloud', 'Security', 'DevOps'],
+                description: 'Learn how to secure your cloud-native applications and infrastructure with best practices and hands-on examples.'
+            },
+            {
+                type: 'lunch',
+                startTime: '13:20',
+                endTime: '14:20',
+                title: 'Lunch Break'
+            },
+            {
+                type: 'talk',
+                startTime: '14:20',
+                endTime: '15:20',
+                title: 'High-Performance Databases for Big Data',
+                speakers: ['Maria Garcia'],
+                categories: ['Databases', 'Big Data', 'Backend'],
+                description: 'Exploring the architecture and performance tuning of modern databases designed to handle massive-scale datasets.'
+            },
+            {
+                type: 'break',
+                startTime: '15:20',
+                endTime: '15:30',
+                title: 'Transition'
+            },
+            {
+                type: 'talk',
+                startTime: '15:30',
+                endTime: '16:30',
+                title: 'Automating Your Life with DevOps Principles',
+                speakers: ['David Miller', 'Fatima Al-Jamil'],
+                categories: ['DevOps', 'Automation', 'Productivity'],
+                description: 'Discover how to apply DevOps concepts to automate everyday tasks and improve your personal productivity.'
+            },
+            {
+                type: 'break',
+                startTime: '16:30',
+                endTime: '16:40',
+                title: 'Transition'
+            },
+            {
+                type: 'talk',
+                startTime: '16:40',
+                endTime: '17:40',
+                title: 'Building Ethical and Unbiased AI Models',
+                speakers: ['Kenji Tanaka'],
+                categories: ['AI', 'Ethics', 'Data Science'],
+                description: 'A critical look at the sources of bias in AI and a practical framework for building fairer and more transparent models.'
+            }
+        ];
+
+        function renderSchedule(categoryFilter = '') {
+            const container = document.getElementById('schedule-container');
+            container.innerHTML = '';
+            const normalizedFilter = categoryFilter.trim().toLowerCase();
+
+            scheduleItems.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.classList.add('schedule-item');
+                
+                let contentHtml = '';
+                let itemMatches = true;
+
+                if (item.type === 'talk') {
+                    const categoriesHtml = item.categories.map(cat => `<span class="category-tag">${cat}</span>`).join('');
+                    const speakerHtml = item.speakers.join(', ');
+                    
+                    contentHtml = `
+                        <div class="talk-content">
+                            <h3>${item.title}</h3>
+                            <p class="speakers">By: ${speakerHtml}</p>
+                            <p>${item.description}</p>
+                            <div class="categories">${categoriesHtml}</div>
+                        </div>
+                    `;
+                    
+                    if (normalizedFilter) {
+                        itemMatches = item.categories.some(cat => cat.toLowerCase().includes(normalizedFilter));
+                    }
+                } else if (item.type === 'lunch') {
+                    itemDiv.classList.add('lunch-item');
+                    contentHtml = `<div class="lunch-content">${item.title}</div>`;
+                } else if (item.type === 'break') {
+                    itemDiv.classList.add('break-item');
+                     contentHtml = `<div class="break-content">${item.title}</div>`;
+                }
+
+                itemDiv.innerHTML = `
+                    <div class="time-marker">${item.startTime}</div>
+                    <div class="content-wrapper">${contentHtml}</div>
+                `;
+
+                if (!itemMatches) {
+                    itemDiv.classList.add('hidden');
+                }
+                
+                container.appendChild(itemDiv);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderSchedule();
+
+            const searchBox = document.getElementById('search-box');
+            searchBox.addEventListener('keyup', (e) => {
+                renderSchedule(e.target.value);
+            });
+        });
+    </script>
+</body>
+</html>
